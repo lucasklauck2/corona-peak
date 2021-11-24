@@ -1,0 +1,51 @@
+mat-toolbar {
+  height: 7vh;
+}
+
+mat-sidenav {
+  width: 15vw;
+  min-width: 200px;
+}
+
+mat-sidenav-container {
+  height: 93vh;
+}
+
+.botao-menu {
+  margin-right: 20px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  height: 50px;
+
+  & :hover {
+    cursor: pointer;
+  }
+}
+
+.menu {
+  & .menu-button {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 20px;
+    font-size: 1rem;
+    background-color: transparent;
+    border: none;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.menu :hover {
+  background-color: #ebebeb;
+  cursor: pointer;
+}
+
+:host ::ng-deep .divi.p-divider {
+  margin: 0 !important;
+}

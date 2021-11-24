@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="cadastro-cabecalho mt-5">
+    <form [formGroup]="form">
+
+      <span class="p-float-label mb-5">
+        <input formControlName="nome" type="text" pInputText pKeyFilter="alpha" maxlength="100">
+        <label for="float-input">Nome empresa</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <input formControlName="estado" type="text" pInputText pKeyFilter="alpha" maxlength="100">
+        <label for="float-input">Estado</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <input formControlName="sigla" type="text" pInputText pKeyFilter="alpha" maxlength="2">
+        <label for="float-input">Sigla estado</label>
+      </span>
+      <button [disabled]="!form.valid" pButton pRipple type="submit" label="Salvar" class="p-button-raised col-12 mb-1">
+      </button>
+
+    </form>
+  </div>
+</div>

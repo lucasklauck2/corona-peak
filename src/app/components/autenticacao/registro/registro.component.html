@@ -1,0 +1,54 @@
+<div class="container h-full">
+
+  <p-toast position="top-center"></p-toast>
+
+  <mat-toolbar color="primary">
+    <span>Corona Peak</span>
+  </mat-toolbar>
+
+  <div class="registro">
+
+    <div class="registro-modal col-11 sm:col-4 border-round shadow-5">
+
+      <div class="cabecalho mt-2 w-full">
+        <button mat-raised-button class="menu-button" matRipple routerLink="/autenticacao/entrar">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <p>Cadastrar</p>
+      </div>
+
+      <p-divider align="center" class="col-12 mb-2 mt-2">
+        <i class="pi pi-user"></i>
+      </p-divider>
+
+      <form [formGroup]="form" (ngSubmit)="registrar()">
+        <span class="p-float-label mb-5">
+          <input formControlName="nome" id="float-input input-email" type="text" pInputText pKeyFilter="alpha"
+            maxlength="100">
+          <label for="float-input">Nome completo</label>
+        </span>
+        <span class="p-float-label mb-5">
+          <input formControlName="email" id="float-input input-email" type="text" pInputText pKeyFilter="email"
+            maxlength="40">
+          <label for="float-input">E-mail</label>
+        </span>
+        <span class="p-float-label mb-5">
+          <p-password formControlName="senha" [toggleMask]="true" [feedback]="false">
+          </p-password>
+          <label for=" float-input">Senha</label>
+        </span>
+        <span class="p-float-label mb-3">
+          <p-calendar formControlName="dataNascimento" [monthNavigator]="true" [yearNavigator]="true"
+            yearRange="1920:2021" inputId="navigators" dateFormat="dd/mm/yy"></p-calendar>
+          <label for=" float-input">Data nascimento</label>
+        </span>
+        <button [disabled]="!form.valid" pButton pRipple type="submit" label="Cadastrar"
+          class="p-button-raised col-12 mb-1">
+        </button>
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,28 @@
+.container {
+  background-color: #ebebeb;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  .container-login {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-grow: 1;
+    .modal-login {
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-width: 16rem;
+
+      .titulo {
+        font-size: 35px;
+      }
+    }
+  }
+}
+
+:host ::ng-deep .p-inputtext {
+  width: 13rem;
+}

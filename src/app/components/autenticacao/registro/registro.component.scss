@@ -1,0 +1,43 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  .registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    background-color: #ebebeb;
+    &-modal {
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 35rem;
+    }
+    .cabecalho {
+      display: flex;
+      align-items: center;
+      button {
+        margin-left: 15px;
+        width: 50px;
+        background-color: transparent;
+        border: none;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      p {
+        text-align: center;
+        flex-grow: 1;
+        margin: 0;
+        font-size: 35px;
+        padding-right: 50px;
+      }
+    }
+  }
+}
+
+:host ::ng-deep .p-inputtext {
+  width: 13rem !important;
+}

@@ -1,0 +1,36 @@
+<div class="container">
+
+  <h1 class="mt-8 mb-5">Detalhes da conta</h1>
+
+  <form [formGroup]="form">
+
+    <span class="p-float-label mb-5">
+      <input formControlName="nome" type="text" pInputText pKeyFilter="alpha" maxlength="100">
+      <label for="float-input">Nome completo</label>
+    </span>
+    <span class="p-float-label mb-5">
+      <input formControlName="email" type="text" pInputText pKeyFilter="email" maxlength="40">
+      <label for="float-input">E-mail</label>
+    </span>
+    <span class="p-float-label mb-5">
+      <p-password formControlName="novaSenha" [toggleMask]="true" [feedback]="false">
+      </p-password>
+      <label for=" float-input">Nova senha</label>
+    </span>
+    <span class="p-float-label mb-5">
+      <p-calendar formControlName="dataNascimento" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+        inputId="navigators" dateFormat="dd/mm/yy">
+      </p-calendar>
+      <label for=" float-input">Data nascimento</label>
+    </span>
+    <span class="p-float-label mb-5">
+      <p-password formControlName="senhaAtual" [toggleMask]="true" [feedback]="false">
+      </p-password>
+      <label for=" float-input">Senha atual</label>
+    </span>
+    <button [disabled]="!form.valid" pButton pRipple type="submit" label="Salvar" class="p-button-raised col-12 mb-1">
+    </button>
+
+  </form>
+
+</div>
