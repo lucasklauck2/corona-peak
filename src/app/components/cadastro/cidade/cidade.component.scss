@@ -8,3 +8,12 @@
 :host ::ng-deep .p-inputtext {
   width: 20rem !important;
 }
+
+.botao-grid {
+  &:hover {
+    cursor: pointer;
+  }
+
+  background-color: transparent;
+  border: 0;
+}
