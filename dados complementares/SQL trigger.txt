@@ -1,0 +1,14 @@
+
+// Trigger resposável por deletar token antigo do usuári
+// quando um novo for gerado
+
+create or replace function deletar_token() returns trigger as
+$$
+Begin
+        delete from tb_usuariotoken where tx_email = new.tx_email;
+        return new;
+end;
+$$ language 'plpgsql';
+
+create trigger trg_deletatoken after insert on tb_usuariotoken
+for each row execute procedure deletar_token();

@@ -1,0 +1,12 @@
+// Relatório 1
+
+select P.id_paciente, P.tx_nome from tb_paciente P where cast(extract(year from age(CURRENT_DATE, P.dt_nascimento)) as integer) % 2 = 1 and exists (select PS from tb_pacientesintoma PS join tb_sintoma as S on S.id_sintoma = PS.cd_sintoma where PS.cd_paciente = P.id_paciente and S.tx_nome = 'Febre');
+
+//Relatório 2
+select P.tx_nome , C.tx_nome from tb_paciente as P join tb_cidade C on C.id_cidade = P.id_cidade join tb_questionario Q on Q.id_questionario = P.id_questionario where Q.fl_positivado = true and (select count(*) from tb_pacientesintoma PS where PS.cd_paciente = P.id_paciente) > 0 and C.tx_nome in ('Maravilha', 'Descanso', 'Pinhalzinho', 'Chapecó', 'Itapiranga') and P.qtd_peso > 60 order by C.tx_nome asc, P.tx_nome desc;
+
+//Relatório 3
+select C.id_cidade, C.tx_nome, count(*) as qt_susp from tb_paciente P join tb_questionario Q on Q.id_questionario = P.id_questionario join tb_cidade C on C.id_cidade = P.id_cidade where Q.fl_suspeito = true and C.id_cidade = P.id_cidade group by C.id_cidade having count(*) < 10 order by qt_susp desc;
+
+//Relatório 4
+select extract(year from age(CURRENT_DATE, P.dt_nascimento)), count(*) as qt_casos from tb_paciente P inner join tb_questionario Q on Q.id_questionario = P.id_questionario  where Q.fl_positivado = true group by extract(year from age(CURRENT_DATE, P.dt_nascimento)) having count(*) > 20 order by qt_casos desc;

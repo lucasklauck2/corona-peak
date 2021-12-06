@@ -1,0 +1,76 @@
+CREATE TABLE tb_cidade (
+	id_cidade int8 NOT NULL,
+	tx_estado varchar(255) NOT NULL,
+	tx_nome varchar(255) NOT NULL,
+	tx_sigla varchar(255) NOT NULL,
+	CONSTRAINT tb_cidade_pkey PRIMARY KEY (id_cidade)
+);
+
+CREATE TABLE tb_empresa (
+	id_empresa int8 NOT NULL,
+	tx_cnpj varchar(255) NOT NULL,
+	cd_cidade int8 NOT NULL,
+	dt_abertura timestamp NOT NULL,
+	tx_nome varchar(255) NOT NULL,
+	tx_fundador varchar(255) NOT NULL,
+	CONSTRAINT tb_empresa_pkey PRIMARY KEY (id_empresa)
+);
+
+CREATE TABLE tb_paciente (
+	id_paciente int8 NOT NULL,
+	qtd_altura float8 NOT NULL,
+	cd_usuario int8 NULL,
+	dt_nascimento timestamp NOT NULL,
+	tx_nome varchar(255) NOT NULL,
+	qtd_peso float8 NOT NULL,
+	id_cidade int8 NULL,
+	id_empresa int8 NULL,
+	id_questionario int8 NULL,
+	CONSTRAINT tb_paciente_pkey PRIMARY KEY (id_paciente),
+	CONSTRAINT fk_pacie_emp FOREIGN KEY (id_empresa) REFERENCES tb_empresa(id_empresa),
+	CONSTRAINT fk_pacie_quest FOREIGN KEY (id_questionario) REFERENCES tb_questionario(id_questionario),
+	CONSTRAINT fk_pacie_cid FOREIGN KEY (id_cidade) REFERENCES tb_cidade(id_cidade)
+);
+
+CREATE TABLE tb_pacientesintoma (
+	id_pacientesintoma int8 NOT NULL,
+	cd_paciente int8 NULL,
+	cd_sintoma int8 NULL,
+	CONSTRAINT tb_pacientesintoma_pkey PRIMARY KEY (id_pacientesintoma)
+);
+
+CREATE TABLE tb_questionario (
+	id_questionario int8 NOT NULL,
+	fl_doencarespiratoria bool NOT NULL,
+	fl_positivado bool NOT NULL,
+	fl_suspeito bool NOT NULL,
+	CONSTRAINT tb_questionario_pkey PRIMARY KEY (id_questionario)
+);
+
+CREATE TABLE tb_sintoma (
+	id_sintoma int8 NOT NULL,
+	tx_nome varchar(255) NOT NULL,
+	CONSTRAINT tb_sintoma_pkey PRIMARY KEY (id_sintoma)
+);
+
+CREATE TABLE tb_usuarios (
+	id_usuario int8 NOT NULL,
+	cd_tipousuario int8 NOT NULL,
+	dt_cadastro timestamp NOT NULL,
+	dt_manutencao timestamp NOT NULL,
+	dt_nascimento timestamp NOT NULL,
+	tx_email varchar(255) NOT NULL,
+	tx_nome varchar(255) NOT NULL,
+	tx_senha varchar(255) NOT NULL,
+	CONSTRAINT tb_usuarios_pkey PRIMARY KEY (id_usuario)
+);
+
+CREATE TABLE tb_usuariotoken (
+	id_token int8 NOT NULL,
+	dt_cadastro timestamp NOT NULL,
+	tx_email varchar(255) NOT NULL,
+	tx_token varchar(255) NOT NULL,
+	CONSTRAINT tb_usuariotoken_pkey PRIMARY KEY (id_token)
+);
+
+

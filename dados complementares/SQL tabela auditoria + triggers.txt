@@ -1,0 +1,48 @@
+CREATE TABLE AUDITORIA (
+ID SERIAL NOT NULL PRIMARY KEY,
+TABELA VARCHAR(50) NOT NULL,
+USUARIO VARCHAR(50) NOT NULL,
+DATA TIMESTAMP NOT NULL,
+OPERACAO VARCHAR(1) NOT NULL,
+NEWREG TEXT,
+OLDREG TEXT
+);
+
+CREATE OR REPLACE FUNCTION ft_auditoria() RETURNS TRIGGER AS
+$body$
+BEGIN
+ IF (TG_OP = 'DELETE') THEN
+ INSERT INTO auditoria(tabela, usuario, data, operacao,oldreg)
+SELECT TG_RELNAME, user, current_timestamp, 'E', OLD::text;
+ RETURN OLD;
+ ELSIF (TG_OP = 'UPDATE') THEN
+ INSERT INTO auditoria(tabela, usuario, data, operacao,newreg,oldreg)
+SELECT TG_RELNAME, user, current_timestamp, 'A',NEW::text,OLD::text;
+ RETURN NEW;
+ ELSIF (TG_OP = 'INSERT') THEN
+ INSERT INTO auditoria(tabela, usuario, data, operacao,newreg)
+SELECT TG_RELNAME, user, current_timestamp, 'I',NEW::text;
+ RETURN NEW;
+ END IF;
+ RETURN NULL;
+END;
+ $body$
+ LANGUAGE plpgsql; 
+
+CREATE TRIGGER paciente_audit AFTER INSERT OR UPDATE OR DELETE ON
+tb_paciente FOR EACH ROW EXECUTE PROCEDURE ft_auditoria();
+
+CREATE TRIGGER cidade_audit AFTER INSERT OR UPDATE OR DELETE ON
+tb_cidade FOR EACH ROW EXECUTE PROCEDURE ft_auditoria();
+
+CREATE TRIGGER empresa_audit AFTER INSERT OR UPDATE OR DELETE ON
+tb_empresa FOR EACH ROW EXECUTE PROCEDURE ft_auditoria();
+
+CREATE TRIGGER questionario_audit AFTER INSERT OR UPDATE OR DELETE ON
+tb_questionario FOR EACH ROW EXECUTE PROCEDURE ft_auditoria();
+
+CREATE TRIGGER sintoma_audit AFTER INSERT OR UPDATE OR DELETE ON
+tb_sintoma FOR EACH ROW EXECUTE PROCEDURE ft_auditoria();
+
+create TRIGGER usuario_audit AFTER INSERT OR UPDATE OR DELETE ON
+tb_usuarios FOR EACH ROW EXECUTE PROCEDURE ft_auditoria();
