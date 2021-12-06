@@ -1,7 +1,7 @@
 import { MessageService } from 'primeng/api';
-import { Observable, Subject, of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginDTO } from './../models/login.dto';
 import { RegistroDTO } from './../models/registro.dto';
@@ -15,6 +15,7 @@ import { ToastService } from './toast-service.service';
 })
 export class AutenticacaoService {
   estaLogado = new Subject<boolean>();
+  tipoAdministrador = new Subject<boolean>();
 
   constructor(
     private httpClient: HttpClient,
@@ -25,33 +26,32 @@ export class AutenticacaoService {
   ) {}
 
   entrar(loginDTO: LoginDTO) {
-    this.httpClient
-      .post<RetornoLoginDTO>(
-        'http://localhost:8080/autenticacao/entrar',
-        loginDTO
-      )
-      .subscribe(
-        (retornoLoginDTO) => this.realizarLogin(retornoLoginDTO),
-        (erro) => this.toastService.addError(erro.error.message)
-      );
+    return this.httpClient.post<RetornoLoginDTO>(
+      'http://localhost:8080/autenticacao/entrar',
+      loginDTO
+    );
   }
 
   registrar(registroDTO: RegistroDTO) {
-    this.httpClient
-      .post<RetornoRegistroDTO>(
-        'http://localhost:8080/autenticacao/registrar',
-        registroDTO
-      )
-      .subscribe(
-        (retornoRegistroDTO) => this.realizarLogin(retornoRegistroDTO),
-        (erro) => this.toastService.addError(erro.error.message)
-      );
+    return this.httpClient.post<RetornoRegistroDTO>(
+      'http://localhost:8080/autenticacao/registrar',
+      registroDTO
+    );
   }
 
   realizarLogin(retorno: RetornoLoginDTO | RetornoRegistroDTO) {
     this.localStorageService.set('token', retorno.token);
 
+    this.localStorageService.set(
+      'codigoUsuario',
+      retorno.codigoUsuario.toString()
+    );
+
     this.mensagemLoginSucesso(retorno.mensagem);
+
+    this.adquirirTipoUsuario().subscribe((tipoUsuario) =>
+      this.emitirMensagemTipoAdministrador(tipoUsuario === 1 ? true : false)
+    );
 
     setTimeout(() => {
       this.emitirMensagemLogado(true);
@@ -64,6 +64,10 @@ export class AutenticacaoService {
     this.estaLogado.next(estaLogado);
   }
 
+  emitirMensagemTipoAdministrador(tipoAdministrador: boolean) {
+    this.tipoAdministrador.next(tipoAdministrador);
+  }
+
   usuarioJaLogado() {
     if (!this.localStorageService.get('token')) {
       return false;
@@ -74,6 +78,7 @@ export class AutenticacaoService {
 
   deslogar() {
     this.localStorageService.remove('token');
+    this.localStorageService.remove('codigoUsuario');
 
     this.mensagemLoginInfo("Você saiu, até breve :'(");
 
@@ -110,5 +115,14 @@ export class AutenticacaoService {
       summary: 'Info',
       detail: mensagem,
     });
+  }
+
+  adquirirTipoUsuario(): Observable<number> {
+    const params = new HttpParams().set('token', this.getToken());
+
+    return this.httpClient.get<number>(
+      'http://localhost:8080/usuario/adquirirTipoUsuario',
+      { params }
+    );
   }
 }

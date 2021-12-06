@@ -1,15 +1,8 @@
-import { MessageService } from 'primeng/api';
-import { Observable, Subject, of } from 'rxjs';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { UsuarioInformacaoDTO } from './../models/usuarioinformacao.dto';
-import { LoginDTO } from '../models/login.dto';
-import { RegistroDTO } from '../models/registro.dto';
-import { RetornoLoginDTO } from '../models/retorno-login.dto';
-import { RetornoRegistroDTO } from '../models/retorno-registro.dto';
 import { AutenticacaoService } from './autenticacao.service';
-import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +23,18 @@ export class UsuarioService {
 
     return this.httpClient.get<UsuarioInformacaoDTO>(
       'http://localhost:8080/usuario/adquirirDados',
+      { params }
+    );
+  }
+
+  adquirirTipoUsuario(): Observable<number> {
+    const params = new HttpParams().set(
+      'token',
+      this.autenticacaoService.getToken()
+    );
+
+    return this.httpClient.get<number>(
+      'http://localhost:8080/usuario/adquirirTipoUsuario',
       { params }
     );
   }

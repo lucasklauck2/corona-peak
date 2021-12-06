@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PaginaInicialComponent } from './components/pagina-inicial/pagina-inicial.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'produtos',
+    redirectTo: '/',
+  },
+  {
+    path: '',
+    component: PaginaInicialComponent,
   },
   {
     path: 'autenticacao',

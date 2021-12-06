@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CidadeDTO } from './../../../models/cidade.dto';
-import { CidadeService } from './../../../service/cidade.service';
-import { ToastService } from './../../../service/toast-service.service';
+import { SintomaDTO } from './../../../models/sintoma.dto';
+import { SintomaService } from './../../../service/sintoma.service';
+import { ToastService } from '../../../service/toast-service.service';
 
 @Component({
-  selector: 'app-cidade',
-  templateUrl: './cidade.component.html',
-  styleUrls: ['./cidade.component.scss'],
+  selector: 'app-sintoma',
+  templateUrl: './sintoma.component.html',
+  styleUrls: ['./sintoma.component.scss'],
 })
-export class CidadeComponent implements OnInit {
+export class SintomaComponent implements OnInit {
   form: FormGroup;
 
-  cidades: Array<CidadeDTO> = [];
+  sintomas: Array<SintomaDTO> = [];
 
   constructor(
     private fb: FormBuilder,
-    private cidadeService: CidadeService,
+    private sintomaService: SintomaService,
     private toastService: ToastService
   ) {}
 
@@ -26,20 +26,18 @@ export class CidadeComponent implements OnInit {
     this.form = this.fb.group({
       id: [null],
       nome: [[''], [Validators.minLength(4)]],
-      estado: [[''], [Validators.minLength(4)]],
-      sigla: [[''], [Validators.minLength(2), Validators.maxLength(2)]],
     });
   }
 
   atualizarItensGrid() {
-    this.cidadeService.adquirirTodas().subscribe(
-      (cidades) => (this.cidades = cidades),
+    this.sintomaService.adquirirTodos().subscribe(
+      (sintomas) => (this.sintomas = sintomas),
       (erro) => this.toastService.addError(erro.message)
     );
   }
 
   salvar() {
-    this.cidadeService.salvar(this.form.value).subscribe(
+    this.sintomaService.salvar(this.form.value).subscribe(
       () => this.atualizarItensGrid(),
       (erro) => this.toastService.addError(erro.message)
     );
@@ -47,12 +45,12 @@ export class CidadeComponent implements OnInit {
     this.form.reset();
   }
 
-  editar(cidade) {
-    this.form.setValue(cidade);
+  editar(sintoma: SintomaDTO) {
+    this.form.setValue(sintoma);
   }
 
-  deletar(codigoCidade: number) {
-    this.cidadeService.deletar(codigoCidade).subscribe(
+  deletar(codigoSintoma: number) {
+    this.sintomaService.deletar(codigoSintoma).subscribe(
       () => {
         this.atualizarItensGrid();
         this.toastService.addSuccess('Registro deletado com sucesso!');

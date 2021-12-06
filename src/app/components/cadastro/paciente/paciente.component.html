@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="cadastro-cabecalho mt-5">
+    <form [formGroup]="form" (submit)="salvar()">
+
+      <span class="p-float-label mb-5">
+        <input formControlName="nome" type="text" pInputText pKeyFilter="alpha" maxlength="100">
+        <label for="float-input">Nome paciente</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <p-calendar formControlName="dataNascimento" [monthNavigator]="true" [yearNavigator]="true"
+          yearRange="1920:2021" inputId="navigators" dateFormat="dd/mm/yy"></p-calendar>
+        <label for="float-input">Data nascimento</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <p-inputNumber formControlName="peso" inputId="minmaxfraction" mode="decimal" [minFractionDigits]="1"
+          [maxFractionDigits]="3">
+        </p-inputNumber>
+        <label for="float-input">Peso</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <p-inputNumber formControlName="altura" inputId="minmaxfraction" mode="decimal" [minFractionDigits]="1"
+          [maxFractionDigits]="2">
+        </p-inputNumber>
+        <label for="float-input">Altura</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <p-dropdown formControlName="codigoCidade" [(ngModel)]="cidadeSelecionada" [options]="cidades"
+          [showClear]="true" placeholder="Selecione uma cidade" optionLabel="nome" optionValue="id">
+        </p-dropdown>
+      </span>
+      <span class="p-float-label mb-3">
+        <p-dropdown formControlName="codigoEmpresa" [(ngModel)]="empresaSelecionada" [options]="empresas"
+          [showClear]="true" placeholder="Selecione uma empresa" optionLabel="nome" optionValue="id">
+        </p-dropdown>
+      </span>
+      <label class="mb-2">Suspeito</label>
+      <span class="p-float-label mb-3">
+        <p-toggleButton [styleClass]="'toggleButton'" formControlName="flagSuspeito" [onLabel]="VERDADEIRO"
+          [offLabel]="FALSO">
+        </p-toggleButton>
+      </span>
+      <label class="mb-2">Positivado</label>
+      <span class="p-float-label mb-3">
+        <p-toggleButton [styleClass]="'toggleButton'" formControlName="flagPositivado" [onLabel]="VERDADEIRO"
+          [offLabel]="FALSO">
+        </p-toggleButton>
+      </span>
+      <label class="mb-2">Doença respiratória</label>
+      <span class="p-float-label mb-5">
+        <p-toggleButton [styleClass]="'toggleButton'" formControlName="flagDoencaRespiratoria" [onLabel]="VERDADEIRO"
+          [offLabel]="FALSO">
+        </p-toggleButton>
+      </span>
+
+
+      <span class="p-float-label mb-5">
+        <p-multiSelect [options]="sintomas" placeholder="Selecione os sintomas" formControlName="listaSintoma"
+          optionLabel="nome" optionValue="id">
+        </p-multiSelect>
+      </span>
+
+      <button [disabled]="form.invalid" pButton pRipple type="submit" label="Salvar"
+        class="p-button-raised col-12 mb-1">
+      </button>
+
+    </form>
+  </div>
+
+  <div class="cadastro-corpo mt-5 mat-elevation-z8" *ngIf="tipoAdministrador">
+
+    <p-table [value]="pacientes">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome</th>
+          <th>Data nascimento</th>
+          <th>Peso</th>
+          <th>Altura</th>
+          <th>Cidade</th>
+          <th>Empresa</th>
+          <th>Suspeito</th>
+          <th>Positivado</th>
+          <th>Doença Resp.</th>
+          <th>Editar</th>
+          <th>Excluir</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-paciente>
+        <tr>
+          <td>{{paciente.nome}}</td>
+          <td>{{paciente.dataNascimento | date:'dd/MM/yyyy'}} </td>
+          <td>{{paciente.peso}}</td>
+          <td>{{paciente.altura}}</td>
+          <td>{{adquirirCidadePaciente(paciente.codigoCidade)}}</td>
+          <td>{{adquirirEmpresaPaciente(paciente.codigoEmpresa)}}</td>
+          <td>{{adquirirSimNao(paciente.flagSuspeito)}}</td>
+          <td>{{adquirirSimNao(paciente.flagPositivado)}}</td>
+          <td>{{adquirirSimNao(paciente.flagDoencaRespiratoria)}}</td>
+          <td>
+            <button class="botao-grid" (click)="editar(paciente)">
+              <mat-icon>edit
+              </mat-icon>
+            </button>
+          </td>
+          <td>
+            <button class="botao-grid" (click)="deletar(paciente.id)">
+              <mat-icon>delete
+              </mat-icon>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+</div>

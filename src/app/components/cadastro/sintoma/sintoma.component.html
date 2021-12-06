@@ -4,15 +4,7 @@
 
       <span class="p-float-label mb-5">
         <input formControlName="nome" type="text" pInputText pKeyFilter="alpha" maxlength="100">
-        <label for="float-input">Nome da cidade</label>
-      </span>
-      <span class="p-float-label mb-5">
-        <input formControlName="estado" type="text" pInputText pKeyFilter="alpha" maxlength="100">
-        <label for="float-input">Estado</label>
-      </span>
-      <span class="p-float-label mb-5">
-        <input formControlName="sigla" type="text" pInputText pKeyFilter="alpha" maxlength="2">
-        <label for="float-input">Sigla estado</label>
+        <label for="float-input">Sintoma</label>
       </span>
       <button [disabled]="form.invalid" pButton pRipple type="submit" label="Salvar"
         class="p-button-raised col-12 mb-1">
@@ -23,29 +15,25 @@
 
   <div class="cadastro-corpo mt-5 mat-elevation-z8">
 
-    <p-table [value]="cidades">
+    <p-table [value]="sintomas">
       <ng-template pTemplate="header">
         <tr>
-          <th>Nome da cidade</th>
-          <th>Estado</th>
-          <th>Sigla estado</th>
+          <th>Sintoma</th>
           <th>Editar</th>
           <th>Excluir</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-cidade>
+      <ng-template pTemplate="body" let-sintoma>
         <tr>
-          <td>{{cidade.nome}}</td>
-          <td>{{cidade.estado}}</td>
-          <td>{{cidade.sigla}}</td>
+          <td>{{sintoma.nome}}</td>
           <td>
-            <button class="botao-grid" (click)="editar(cidade)">
+            <button class="botao-grid" (click)="editar(sintoma)">
               <mat-icon>edit
               </mat-icon>
             </button>
           </td>
           <td>
-            <button class="botao-grid" (click)="deletar(cidade.id)">
+            <button class="botao-grid" (click)="deletar(sintoma.id)">
               <mat-icon>delete
               </mat-icon>
             </button>

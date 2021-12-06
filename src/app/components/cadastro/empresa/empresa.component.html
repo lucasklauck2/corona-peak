@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="cadastro-cabecalho mt-5">
+    <form [formGroup]="form" (submit)="salvar()">
+
+      <span class="p-float-label mb-5">
+        <input formControlName="nome" type="text" pInputText pKeyFilter="alpha" maxlength="100">
+        <label for="float-input">Nome da empresa</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <input formControlName="cnpj" type="text" pInputText pKeyFilter="alpha" maxlength="100">
+        <label for="float-input">CNPJ</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <input formControlName="nomeFundador" type="text" pInputText pKeyFilter="alpha" maxlength="100">
+        <label for="float-input">Fundador</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <p-calendar formControlName="dataAbertura" [monthNavigator]="true" [yearNavigator]="true" yearRange="1920:2021"
+          inputId="navigators" dateFormat="dd/mm/yy"></p-calendar>
+        <label for="float-input">Data abertura</label>
+      </span>
+      <span class="p-float-label mb-5">
+        <p-dropdown formControlName="codigoCidade" [(ngModel)]="cidadeSelecionada" [options]="cidades"
+          [showClear]="true" placeholder="Selecione uma cidade" optionLabel="nome" optionValue="id">
+        </p-dropdown>
+      </span>
+      <button [disabled]="form.invalid" pButton pRipple type="submit" label="Salvar"
+        class="p-button-raised col-12 mb-1">
+      </button>
+
+    </form>
+  </div>
+
+  <div class="cadastro-corpo mt-5 mat-elevation-z8">
+
+    <p-table [value]="empresas">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nome da empresa</th>
+          <th>CNPJ</th>
+          <th>Fundador</th>
+          <th>Data abertura</th>
+          <th>Cidade sede</th>
+          <th>Editar</th>
+          <th>Excluir</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-empresa>
+        <tr>
+          <td>{{empresa.nome}}</td>
+          <td>{{empresa.cnpj}}</td>
+          <td>{{empresa.nomeFundador}}</td>
+          <td>{{empresa.dataAbertura | date:'dd/MM/yyyy'}}</td>
+          <td>{{adquirirCidadeSede(empresa.codigoCidade)}}</td>
+          <td>
+            <button class="botao-grid" (click)="editar(empresa)">
+              <mat-icon>edit
+              </mat-icon>
+            </button>
+          </td>
+          <td>
+            <button class="botao-grid" (click)="deletar(empresa.id)">
+              <mat-icon>delete
+              </mat-icon>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+</div>

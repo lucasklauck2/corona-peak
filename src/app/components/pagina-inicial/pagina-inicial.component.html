@@ -1,0 +1,114 @@
+<div class="container mt-5">
+
+  <h1>Relátorios dos dados coletados</h1>
+
+  <div class="relatorio-container mb-5">
+
+    <div class="relatorio-cabecalho">
+      <p>Código e nome dos pacientes com idade ímpar que apresentam como sintoma febre, <br> ordenado de forma
+        ascendente por
+        nome</p>
+    </div>
+
+    <div class="relatorio-tabela mat-elevation-z2">
+      <p-table [value]="dadosRelatorio.listaDadosRelatorioUm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Codigo do paciente</th>
+            <th>Nome do paciente</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dado>
+          <tr>
+            <td>{{dado.id}}</td>
+            <td>{{dado.nome}} </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+  </div>
+
+  <div class="relatorio-container mb-5">
+
+    <div class="relatorio-cabecalho">
+      <p>Nome do paciente, nome da cidade que reside, de paciente que possuam mais de 60KG,<br>
+        residam nos municipios de Maravilha, Descanso, Pinhalzinho, Chapecó ou Itapiranga,<br>
+        que apresentam algum sintoma e que foram positivados com COVID.<br>
+        Ordenado de forma ascendente por nome da cidade e descendente por nome do paciente</p>
+    </div>
+
+    <div class="relatorio-tabela mat-elevation-z2">
+      <p-table [value]="dadosRelatorio.listaDadosRelatorioDois">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nome do paciente</th>
+            <th>Nome da cidade</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dado>
+          <tr>
+            <td>{{dado.nomePaciente}}</td>
+            <td>{{dado.nomeCidade}} </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+  </div>
+
+  <div class="relatorio-container mb-5">
+
+    <div class="relatorio-cabecalho">
+      <p>Código da cidada, nome da cidade, e quantidade de casos supeitos para cidades com mais de 20 casos.<br>
+        Ordenado de forma descendente por quantidade casos.</p>
+    </div>
+
+    <div class="relatorio-tabela mat-elevation-z2">
+      <p-table [value]="dadosRelatorio.listaDadosRelatorioTres">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Código da cidade</th>
+            <th>Nome da cidade</th>
+            <th>Qtd</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dado>
+          <tr>
+            <td>{{dado.codigoCidade}}</td>
+            <td>{{dado.nomeCidade}} </td>
+            <td>{{dado.quantidadeSuspeito}} </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+  </div>
+
+  <div class="relatorio-container mb-5">
+
+    <div class="relatorio-cabecalho">
+      <p>Idade e quantidade de casos positivados para idades com menos de 10 casos.<br>
+        Ordenado de forma descendente pela quantidade de casos</p>
+    </div>
+
+    <div class="relatorio-tabela mat-elevation-z2">
+      <p-table [value]="dadosRelatorio.listaDadosRelatorioQuatro">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Idade</th>
+            <th>Qtd</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dado>
+          <tr>
+            <td>{{dado.idade}}</td>
+            <td>{{dado.quantidadeCasos}} </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+  </div>
+
+</div>

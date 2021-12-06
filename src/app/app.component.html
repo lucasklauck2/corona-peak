@@ -21,13 +21,25 @@
 
         <mat-divider></mat-divider>
 
-        <button mat-raised-button class="menu-button" matRipple routerLink="cadastro/">
-          <mat-icon>add_box
-          </mat-icon>
-          <span>Cadastro</span>
-        </button>
+        <div *ngIf="tipoAdministrador">
+          <button mat-raised-button class="menu-button" matRipple routerLink="cadastro/">
+            <mat-icon>add_box
+            </mat-icon>
+            <span>Cadastro</span>
+          </button>
 
-        <mat-divider></mat-divider>
+          <mat-divider></mat-divider>
+        </div>
+
+        <div *ngIf="!respondeuQuestionario">
+          <button mat-raised-button class="menu-button" matRipple routerLink="cadastro/paciente">
+            <mat-icon>add_box
+            </mat-icon>
+            <span>Questionario paciente</span>
+          </button>
+
+          <mat-divider></mat-divider>
+        </div>
 
         <p-divider align="center" class="col-12" [styleClass]="'divi'">
 

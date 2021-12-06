@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AutenticacaoService } from './../../../service/autenticacao.service';
+import { PacienteService } from './../../../service/paciente.service';
+import { ToastService } from './../../../service/toast-service.service';
+import { UsuarioService } from './../../../service/usuario.service';
 
 @Component({
   selector: 'app-registro',
@@ -14,7 +17,10 @@ export class RegistroComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private autenticacaoService: AutenticacaoService
+    private autenticacaoService: AutenticacaoService,
+    private usuarioService: UsuarioService,
+    private pacienteService: PacienteService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -27,13 +33,44 @@ export class RegistroComponent implements OnInit {
   }
 
   registrar() {
-    this.autenticacaoService.registrar(
-      new RegistroDTO(
-        this.form.get('nome').value,
-        this.form.get('email').value,
-        this.form.get('senha').value,
-        this.form.get('dataNascimento').value
+    this.autenticacaoService
+      .registrar(
+        new RegistroDTO(
+          this.form.get('nome').value,
+          this.form.get('email').value,
+          this.form.get('senha').value,
+          this.form.get('dataNascimento').value
+        )
       )
-    );
+      .subscribe(
+        (retornoRegistroDTO) => {
+          this.autenticacaoService.realizarLogin(retornoRegistroDTO);
+
+          this.usuarioService
+            .adquirirTipoUsuario()
+            .subscribe((codigoTipoUsuario) => {
+              let tipoAdministrador = codigoTipoUsuario === 1 ? true : false;
+
+              this.autenticacaoService.emitirMensagemTipoAdministrador(
+                tipoAdministrador
+              );
+
+              if (!tipoAdministrador) {
+                this.pacienteService
+                  .verificarRespostaQuestionario()
+                  .subscribe((respondeuQuestionario) =>
+                    this.pacienteService.emitirRespondeuQuestionario(
+                      respondeuQuestionario
+                    )
+                  );
+              } else {
+                this.pacienteService.emitirRespondeuQuestionario(true);
+              }
+            });
+        },
+        (erro) => {
+          this.toastService.addError(erro.error.message);
+        }
+      );
   }
 }

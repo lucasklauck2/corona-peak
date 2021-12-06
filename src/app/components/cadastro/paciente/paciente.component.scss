@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+:host ::ng-deep .p-inputtext {
+  width: 20rem !important;
+}
+
+:host ::ng-deep .p-dropdown {
+  width: 20rem !important;
+}
+
+:host ::ng-deep .toggleButton {
+  width: 20rem !important;
+}
+
+:host ::ng-deep .p-multiselect {
+  width: 20rem !important;
+}
+
+.botao-grid {
+  &:hover {
+    cursor: pointer;
+  }
+
+  background-color: transparent;
+  border: 0;
+}

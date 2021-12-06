@@ -1,5 +1,6 @@
 import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
+import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -12,10 +13,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CidadeComponent } from './components/cadastro/cidade/cidade.component';
+import { PaginaInicialComponent } from './components/pagina-inicial/pagina-inicial.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, PaginaInicialComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,6 +27,7 @@ import { CidadeComponent } from './components/cadastro/cidade/cidade.component';
     MatRippleModule,
     MatDividerModule,
     DividerModule,
+    TableModule,
     HttpClientModule,
     ToastModule,
   ],
